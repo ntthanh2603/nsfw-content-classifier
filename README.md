@@ -1,54 +1,54 @@
-# Báo Cáo Tổng Hợp So Sánh Các Mô Hình Phân Loại Ảnh
+# Comprehensive Report: Comparison of Image Classification Models
 
-## 1. Tổng Quan Các Mô Hình
+## 1. Model Overview
 
-Báo cáo này tổng hợp và so sánh kết quả thực nghiệm của bốn mô hình phân loại ảnh khác nhau:
+This report summarizes and compares experimental results of four different image classification models:
 
 1. **EfficientNet**
 2. **ResNet34**
 3. **Vision Transformer (ViT)**
 4. **YOLOv8n**
 
-## 2. So Sánh Cấu Hình Huấn Luyện
+## 2. Training Configuration Comparison
 
-| Thông số              | EfficientNet                | ResNet34               | Vision Transformer | YOLOv8n                |
+| Parameter             | EfficientNet                | ResNet34               | Vision Transformer | YOLOv8n                |
 | --------------------- | --------------------------- | ---------------------- | ------------------ | ---------------------- |
-| **Số epochs**         | 15                          | 100                    | 100                | 10                     |
-| **Learning rate**     | 0.001 (giả định)            | 0.1→0.01→0.001→0.0001  | 0.00001 (cố định)  | Schedule tăng-giảm     |
-| **Kỹ thuật đặc biệt** | Early stopping (patience=5) | Learning rate schedule | Không              | Learning rate schedule |
+| **Number of epochs**  | 15                          | 100                    | 100                | 10                     |
+| **Learning rate**     | 0.001 (assumed)             | 0.1→0.01→0.001→0.0001  | 0.00001 (fixed)    | Increase-decrease schedule |
+| **Special techniques** | Early stopping (patience=5) | Learning rate schedule | None               | Learning rate schedule |
 
-## 3. So Sánh Kết Quả Thực Nghiệm
+## 3. Experimental Results Comparison
 
-### 3.1. Độ Chính Xác Cao Nhất
+### 3.1. Highest Accuracy
 
-| Mô hình            | Accuracy Cao Nhất | Trên Tập Dữ Liệu | Thời Điểm       |
-| ------------------ | ----------------- | ---------------- | --------------- |
-| EfficientNet       | 97.04%            | Test             | Epoch 11 (best) |
-| ResNet34           | 80.74%            | Test             | Sau 100 epochs  |
-| Vision Transformer | 74.81%            | Test             | Sau 100 epochs  |
-| YOLOv8n            | 95.9%             | Test             | Epoch 10        |
+| Model              | Highest Accuracy | On Dataset | Timing          |
+| ------------------ | ---------------- | ---------- | --------------- |
+| EfficientNet       | 97.04%           | Test       | Epoch 11 (best) |
+| ResNet34           | 80.74%           | Test       | After 100 epochs |
+| Vision Transformer | 74.81%           | Test       | After 100 epochs |
+| YOLOv8n            | 95.9%            | Test       | Epoch 10        |
 
-### 3.2. Diễn Biến Loss
+### 3.2. Loss Evolution
 
-| Mô hình            | Loss Ban Đầu | Loss Cuối Cùng | Đặc Điểm                                 |
-| ------------------ | ------------ | -------------- | ---------------------------------------- |
-| EfficientNet       | 0.0717       | 0.0583         | Dao động không đều từ 0.0330-0.1081      |
-| ResNet34           | 4.41         | 0.4341         | Giảm theo các giai đoạn LR, ổn định cuối |
-| Vision Transformer | 1.073        | 0.0004         | Giảm đều, hội tụ gần 0                   |
-| YOLOv8n            | 0.83442      | 0.07431        | Giảm nhanh và ổn định                    |
+| Model              | Initial Loss | Final Loss | Characteristics                           |
+| ------------------ | ------------ | ---------- | ----------------------------------------- |
+| EfficientNet       | 0.0717       | 0.0583     | Irregular fluctuations from 0.0330-0.1081 |
+| ResNet34           | 4.41         | 0.4341     | Decreases in LR phases, stable at end    |
+| Vision Transformer | 1.073        | 0.0004     | Steady decrease, converges near 0        |
+| YOLOv8n            | 0.83442      | 0.07431    | Fast decrease and stable                 |
 
-### 3.3. Thời Gian Huấn Luyện và Hiệu Suất
+### 3.3. Training Time and Performance
 
-| Mô hình            | Thời Gian Huấn Luyện | Hiệu Suất Inference | Hội Tụ Nhanh               |
-| ------------------ | -------------------- | ------------------- | -------------------------- |
-| EfficientNet       | Không rõ             | Không rõ            | Đạt >92% từ epoch đầu      |
-| ResNet34           | Không rõ             | Không rõ            | Giảm loss chậm, ổn định    |
-| Vision Transformer | Không rõ             | Không rõ            | Giảm loss đều, cuối hội tụ |
-| YOLOv8n            | Ngắn (10 epochs)     | 17.4ms/ảnh          | Đạt >90% chỉ sau 2 epochs  |
+| Model              | Training Time        | Inference Performance | Fast Convergence           |
+| ------------------ | -------------------- | -------------------- | -------------------------- |
+| EfficientNet       | Not specified        | Not specified        | Achieves >92% from first epoch |
+| ResNet34           | Not specified        | Not specified        | Slow loss decrease, stable |
+| Vision Transformer | Not specified        | Not specified        | Steady loss decrease, final convergence |
+| YOLOv8n            | Short (10 epochs)    | 17.4ms/image         | Achieves >90% after just 2 epochs |
 
-## 4. Phân Tích Chi Tiết Theo Lớp
+## 4. Detailed Class-wise Analysis
 
-### 4.1. Metrics Theo Lớp của EfficientNet
+### 4.1. EfficientNet Class-wise Metrics
 
 | Class   | Precision | Recall | F1-score |
 | ------- | --------- | ------ | -------- |
@@ -56,7 +56,7 @@ Báo cáo này tổng hợp và so sánh kết quả thực nghiệm của bốn
 | Normal  | 0.9528    | 0.9712 | 0.9619   |
 | Violent | 0.9595    | 0.9342 | 0.9467   |
 
-### 4.2. Ma Trận Nhầm Lẫn của EfficientNet
+### 4.2. EfficientNet Confusion Matrix
 
 ```
                         Predicted
@@ -66,97 +66,97 @@ True   Normal        0      101        3
 True  Violent        0        5       71
 ```
 
-### 4.3. Metrics Các Mô Hình Khác
+### 4.3. Other Models Metrics
 
-- **ResNet34**: Chỉ báo cáo accuracy tổng thể (80.74%), không có metrics chi tiết theo lớp
-- **Vision Transformer**: Chỉ báo cáo accuracy tổng thể (74.81%), không có metrics chi tiết theo lớp
-- **YOLOv8n**: Báo cáo Top-1 Accuracy (95.9%) và Top-5 Accuracy (100%)
+- **ResNet34**: Only reports overall accuracy (80.74%), no detailed class-wise metrics
+- **Vision Transformer**: Only reports overall accuracy (74.81%), no detailed class-wise metrics
+- **YOLOv8n**: Reports Top-1 Accuracy (95.9%) and Top-5 Accuracy (100%)
 
-## 5. So Sánh Đặc Trưng và Ưu Điểm
+## 5. Feature and Advantage Comparison
 
 ### 5.1. EfficientNet
 
-- **Ưu điểm**: Accuracy cao nhất (97.04%), phân loại hoàn hảo lớp "Adult"
-- **Đặc trưng**: Validation accuracy dao động nhiều, loss không giảm đều
+- **Advantages**: Highest accuracy (97.04%), perfect classification for "Adult" class
+- **Characteristics**: Validation accuracy fluctuates significantly, loss doesn't decrease evenly
 
 ### 5.2. ResNet34
 
-- **Ưu điểm**: Learning rate schedule hiệu quả
-- **Đặc trưng**: Huấn luyện ổn định, không có dao động loss đột ngột
+- **Advantages**: Effective learning rate schedule
+- **Characteristics**: Stable training, no sudden loss fluctuations
 
 ### 5.3. Vision Transformer
 
-- **Ưu điểm**: Loss huấn luyện giảm xuống gần 0 (0.0004)
-- **Đặc trưng**: Hiệu suất thấp (74.81%) cho thấy có thể overfitting
+- **Advantages**: Training loss decreases to near 0 (0.0004)
+- **Characteristics**: Low performance (74.81%) suggests possible overfitting
 
 ### 5.4. YOLOv8n
 
-- **Ưu điểm**: Hội tụ nhanh, tốc độ inference cao (17.4ms/ảnh)
-- **Đặc trưng**: Hiệu quả cao với số lượng epochs ít (10)
+- **Advantages**: Fast convergence, high inference speed (17.4ms/image)
+- **Characteristics**: High efficiency with few epochs (10)
 
-## 6. So Sánh Hiệu Suất Tổng Thể
+## 6. Overall Performance Comparison
 
-| Tiêu Chí                | EfficientNet       | ResNet34             | Vision Transformer | YOLOv8n            |
+| Criteria                | EfficientNet       | ResNet34             | Vision Transformer | YOLOv8n            |
 | ----------------------- | ------------------ | -------------------- | ------------------ | ------------------ |
 | **Accuracy**            | ★★★★★ (97.04%)     | ★★★☆☆ (80.74%)       | ★★☆☆☆ (74.81%)     | ★★★★★ (95.9%)      |
-| **Tốc độ hội tụ**       | ★★★★☆ (15 epochs)  | ★★☆☆☆ (100 epochs)   | ★★☆☆☆ (100 epochs) | ★★★★★ (10 epochs)  |
-| **Ổn định loss**        | ★★☆☆☆ (dao động)   | ★★★★☆ (giảm ổn định) | ★★★★★ (giảm đều)   | ★★★★☆ (giảm nhanh) |
-| **Thời gian inference** | Không có thông tin | Không có thông tin   | Không có thông tin | ★★★★★ (17.4ms/ảnh) |
-| **Đánh giá chung**      | ★★★★★              | ★★★☆☆                | ★★☆☆☆              | ★★★★★              |
+| **Convergence speed**   | ★★★★☆ (15 epochs)  | ★★☆☆☆ (100 epochs)   | ★★☆☆☆ (100 epochs) | ★★★★★ (10 epochs)  |
+| **Loss stability**      | ★★☆☆☆ (fluctuating) | ★★★★☆ (stable decrease) | ★★★★★ (steady decrease) | ★★★★☆ (fast decrease) |
+| **Inference time**      | No information     | No information       | No information     | ★★★★★ (17.4ms/image) |
+| **Overall rating**      | ★★★★★              | ★★★☆☆                | ★★☆☆☆              | ★★★★★              |
 
-## 7. Kết Luận và Đề Xuất
+## 7. Conclusions and Recommendations
 
-### 7.1. Kết Luận Tổng Quan
+### 7.1. General Conclusions
 
-Từ kết quả thực nghiệm của cả bốn mô hình, có thể rút ra những kết luận sau:
+From the experimental results of all four models, the following conclusions can be drawn:
 
-1. **EfficientNet** và **YOLOv8n** là hai mô hình hiệu quả nhất với độ chính xác >95% trên tập test, phù hợp cho bài toán phân loại ảnh theo nội dung.
+1. **EfficientNet** and **YOLOv8n** are the two most effective models with >95% accuracy on test set, suitable for content-based image classification tasks.
 
-2. **ResNet34** có hiệu suất trung bình (80.74%) nhưng quá trình huấn luyện ổn định, có thể cần thêm tối ưu hóa.
+2. **ResNet34** has moderate performance (80.74%) but stable training process, may need additional optimization.
 
-3. **Vision Transformer** có hiệu suất thấp nhất (74.81%) trên tập dữ liệu MNIST, cho thấy kiến trúc transformer có thể chưa phù hợp với dữ liệu đơn giản hoặc cần điều chỉnh thêm hyperparameters.
+3. **Vision Transformer** has the lowest performance (74.81%) on the MNIST dataset, suggesting that transformer architecture may not be suitable for simple data or needs hyperparameter adjustments.
 
-4. **YOLOv8n** nổi bật với khả năng hội tụ nhanh (chỉ 10 epochs) và tốc độ inference cao, phù hợp cho ứng dụng thực tế và xử lý thời gian thực.
+4. **YOLOv8n** stands out with fast convergence capability (only 10 epochs) and high inference speed, suitable for practical applications and real-time processing.
 
-### 7.2. Đề Xuất Cải Thiện
+### 7.2. Improvement Recommendations
 
-#### Cho EfficientNet:
+#### For EfficientNet:
 
-- Tăng cường dữ liệu cho lớp "Normal" và "Violent" để giảm nhầm lẫn
-- Áp dụng learning rate scheduler để ổn định quá trình huấn luyện
+- Enhance data for "Normal" and "Violent" classes to reduce confusion
+- Apply learning rate scheduler to stabilize training process
 
-#### Cho ResNet34:
+#### For ResNet34:
 
-- Tối ưu hóa learning rate schedule
-- Áp dụng thêm kỹ thuật regularization (dropout, weight decay)
-- Thử nghiệm với kiến trúc lớn hơn (ResNet50, ResNet101)
+- Optimize learning rate schedule
+- Apply additional regularization techniques (dropout, weight decay)
+- Experiment with larger architectures (ResNet50, ResNet101)
 
-#### Cho Vision Transformer:
+#### For Vision Transformer:
 
-- Áp dụng regularization để tránh overfitting
-- Thử nghiệm với learning rate schedule thay vì cố định
-- Điều chỉnh hyperparameters (số layer, head attention, kích thước patch)
+- Apply regularization to avoid overfitting
+- Experiment with learning rate schedule instead of fixed rate
+- Adjust hyperparameters (number of layers, attention heads, patch size)
 
-#### Cho YOLOv8n:
+#### For YOLOv8n:
 
-- Tối ưu hóa tập dữ liệu (tăng số lượng mẫu khó)
-- Điều chỉnh siêu tham số để giảm biến động val loss
+- Optimize dataset (increase number of hard samples)
+- Adjust hyperparameters to reduce val loss fluctuation
 
-### 7.3. Lựa Chọn Mô Hình Theo Bài Toán
+### 7.3. Model Selection by Problem Type
 
-- **Cần độ chính xác cao nhất**: EfficientNet (97.04%)
-- **Cần tốc độ xử lý nhanh**: YOLOv8n (17.4ms/ảnh)
-- **Ứng dụng thực tế cân bằng**: YOLOv8n (95.9% accuracy, 10 epochs, inference nhanh)
-- **Dữ liệu phức tạp với nhiều chi tiết**: ResNet34 với learning rate schedule
-- **Dữ liệu cấu trúc không gian phức tạp**: Vision Transformer (sau khi tối ưu hóa)
+- **Need highest accuracy**: EfficientNet (97.04%)
+- **Need fast processing speed**: YOLOv8n (17.4ms/image)
+- **Balanced practical application**: YOLOv8n (95.9% accuracy, 10 epochs, fast inference)
+- **Complex data with many details**: ResNet34 with learning rate schedule
+- **Complex spatial structure data**: Vision Transformer (after optimization)
 
-## 8. Báo cáo cho từng model
+## 8. Individual Model Reports
 
-1. Báo cáo phân tích mô hình EfficientNet phân loại ảnh thành ba nhãn
-2. Báo cáo kết quả thực nghiệm mô hình ResNet34
-3. Báo cáo kết quả thực nghiệm mô hình Vision Transformer
-4. Báo cáo phân tích hiệu suất dự án phân loại ảnh 16+ sử dụng mô hình YOLOv8n
+1. Analysis report of EfficientNet model for three-label image classification
+2. Experimental results report of ResNet34 model
+3. Experimental results report of Vision Transformer model
+4. Performance analysis report of 16+ image classification project using YOLOv8n model
 
-[Dữ liệu cho dự án](https://drive.google.com/drive/folders/1WFXCRMUw7Pw0JI7nRGtm0wXDQPK7Cvx6?usp=drive_link)
+[Project Data](https://drive.google.com/drive/folders/1WFXCRMUw7Pw0JI7nRGtm0wXDQPK7Cvx6?usp=drive_link)
 
-Nếu bạn thấy có gì sai sót hay cần cải thiện thì đừng ngại thêm issue để cộng đồng AI ngày càng phát triển nhé :))
+If you find any errors or areas for improvement, please don't hesitate to add an issue so the AI community can continue to grow :))
