@@ -157,6 +157,4 @@ From the experimental results of all four models, the following conclusions can 
 3. Experimental results report of Vision Transformer model
 4. Performance analysis report of 16+ image classification project using YOLOv8n model
 
-[Project Data](https://drive.google.com/drive/folders/1WFXCRMUw7Pw0JI7nRGtm0wXDQPK7Cvx6?usp=drive_link)
-
 If you find any errors or areas for improvement, please don't hesitate to add an issue so the AI community can continue to grow :))
